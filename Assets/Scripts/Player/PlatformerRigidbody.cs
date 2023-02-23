@@ -12,6 +12,8 @@ public class PlatformerRigidbody : MonoBehaviour
     [Tooltip("Increased accuracy, reduced performance.")]
     [SerializeField] private int _freeColliderIterations = 10;
     [SerializeField, ReadOnly] private Vector2 _velocity;
+	[SerializeField, ReadOnly] private bool _climbing;
+	[SerializeField, ReadOnly] private float _climb;
     
     private PlatformerCollider _collider;
     private bool _disabled;
@@ -36,6 +38,8 @@ public class PlatformerRigidbody : MonoBehaviour
 
     public void SetVelocityX(float value) => _velocity.x = value;
     public void SetVelocityY(float value) => _velocity.y = value;
+	public void SetClimbing(bool climbing) => _climbing = climbing;
+	public void SetClimb(float value) => _climb = value;
 
     public void UpdatePosition(float delta)
     {
@@ -52,24 +56,46 @@ public class PlatformerRigidbody : MonoBehaviour
         var pos = (Vector2)transform.position;
         var furthestPoint = pos + _velocity * delta;
         
-        var hit = _collider.CheckOverlap(furthestPoint);
-        if (!hit)
+	    var hit = _collider.CheckOverlap(furthestPoint);
+	    bool validMovement = false;
+        if (hit)
         {
-            transform.position = furthestPoint;
-            return;
-        }
+        	for (int i = 1; i < _freeColliderIterations; i++)
+        	{
+	        	var t = 1f - (float)i / _freeColliderIterations;
+	        	var posToTry = Vector2.Lerp(pos, furthestPoint, t);
 
-        for (int i = 1; i < _freeColliderIterations; i++)
-        {
-            var t = 1f - (float)i / _freeColliderIterations;
-            var posToTry = Vector2.Lerp(pos, furthestPoint, t);
-
-            hit = _collider.CheckOverlap(posToTry);
-            if (hit) continue;
+	        	hit = _collider.CheckOverlap(posToTry);
+	        	if (hit) continue;
             
-            transform.position = posToTry;
-            return;
+	        	transform.position = posToTry;
+	        	validMovement = true;
+	        	break;
+        	}
         }
+        else
+        {
+	        transform.position = furthestPoint;
+	        validMovement = true;
+        }
+	    if (_climbing)
+	    {
+	    	if (_climb > 0)
+	    	{
+		    	transform.position += Vector3.up * delta;
+	    	}
+	    	else if (_climb < 0)
+	    	{
+	    		if (!Grounded)
+	    		{
+		    		transform.position += Vector3.down * delta;
+	    		}
+	    	}
+	    }
+	    else if (!validMovement && !Grounded)
+	    {
+	    	transform.position += Vector3.down * delta;
+	    }
     }
 
     public void UpdateFacing()

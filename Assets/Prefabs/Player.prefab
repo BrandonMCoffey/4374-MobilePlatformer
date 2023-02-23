@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gravityMult: 4
-  _startDelay: 1
+  _startDelay: 0.5
   _groundFriction: 0.1
   _freeColliderIterations: 10
   _velocity: {x: 0, y: 0}
@@ -136,7 +136,7 @@ MonoBehaviour:
   _crouchBuffer: 0.02
   _stepHeight: 0.24
   _undershoot: 0.1
-  _overshoot: 0.1
+  _overshoot: 0.025
   _extraRays: 3
   _grounded: 0
   _hitHead: 0
@@ -267,7 +267,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.65882355, g: 0.8573204, b: 0.9254902, a: 1}
+  m_Color: {r: 0.3443396, g: 0.8360849, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

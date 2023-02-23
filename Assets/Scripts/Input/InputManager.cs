@@ -10,7 +10,6 @@ public class InputManager : MonoBehaviour
 	[SerializeField] private int _minDistForDash = 300;
 	[SerializeField] private float _walkDirFade = 1;
 	
-	[SerializeField, ReadOnly] private bool _holding;
 	[SerializeField, ReadOnly] private bool _walking;
 	[SerializeField, ReadOnly] private bool _dashing;
 	[SerializeField, ReadOnly] private bool _startTap;
@@ -18,6 +17,7 @@ public class InputManager : MonoBehaviour
 	[SerializeField, ReadOnly] private Vector2 _initialPosition;
 	[SerializeField, ReadOnly] private Vector2 _lastPosition;
 	
+	public static bool Holding { get; private set; }
 	public static bool JumpThisFrame { get; private set; }
 	public static bool DashThisFrame { get; set; }
 	public static Vector2 MoveDir { get; private set; } = Vector2.zero;
@@ -43,7 +43,7 @@ public class InputManager : MonoBehaviour
 			}
 			_walking = false;
 		}
-		_holding = pressed;
+		Holding = pressed;
 		_dashing = false;
 		_timeSinceTap = 0;
 	}
@@ -56,7 +56,7 @@ public class InputManager : MonoBehaviour
 			_initialPosition = pos;
 			_startTap = false;
 		}
-		else if (_holding)
+		else if (Holding)
 		{
 			if (_timeSinceTap < _tapLengthForWalk && !_dashing)
 			{
@@ -88,7 +88,7 @@ public class InputManager : MonoBehaviour
 	
 	private void Update()
 	{
-		if (_holding)
+		if (Holding)
 		{
 			_timeSinceTap += Time.deltaTime;
 		}
