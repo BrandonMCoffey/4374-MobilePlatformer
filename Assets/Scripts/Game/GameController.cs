@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-	[SerializeField] private GameObject _playerUnitPrefab;
-	[SerializeField] private Transform _playerUnitSpawnLocation;
+	[SerializeField] private GameObject _playerPrefab;
+	[SerializeField] private Transform _playerSpawnLocation;
 	
-	public GameObject PlayerUnitPrefab => _playerUnitPrefab;
-	public Transform PlayerUnitSpawnLocation => _playerUnitSpawnLocation;
+	public GameObject PlayerPrefab => _playerPrefab;
+	public Transform PlayerSpawnLocation => _playerSpawnLocation;
 }

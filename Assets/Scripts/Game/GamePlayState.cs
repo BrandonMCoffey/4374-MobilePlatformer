@@ -7,6 +7,8 @@ public class GamePlayState : State
 	private GameFSM _stateMachine;
 	private GameController _controller;
 	
+	private GameObject _player;
+	
 	public GamePlayState(GameFSM stateMachine, GameController controller)
 	{
 		_stateMachine = stateMachine;
@@ -15,7 +17,11 @@ public class GamePlayState : State
 	
 	protected override void OnEnter()
 	{
-		GameObject.Instantiate(_controller.PlayerUnitPrefab, _controller.PlayerUnitSpawnLocation);
+		if (_player == null)
+		{
+			_player = GameObject.Instantiate(_controller.PlayerPrefab, _controller.PlayerSpawnLocation);
+		}
+		MainCamera.Player = _player.transform;
 	}
 	protected override void OnTick() { }
 	protected override void OnFixedTick() { }
