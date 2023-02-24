@@ -106,4 +106,7 @@ public class InputManager : MonoBehaviour
 		}
 		else MoveDir = Vector2.zero;
 	}
+	
+	private void OnWin() => GameController.WinGame();
+	private void OnDeath() => GameController.LoseGame();
 }

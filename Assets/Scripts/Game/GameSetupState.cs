@@ -6,19 +6,29 @@ public class GameSetupState : State
 {
 	private GameFSM _stateMachine;
 	private GameController _controller;
+	private CanvasController _canvas;
 	
-	public GameSetupState(GameFSM stateMachine, GameController controller)
+	private GameObject _loadingScreen;
+	
+	public GameSetupState(GameFSM stateMachine)
 	{
 		_stateMachine = stateMachine;
-		_controller = controller;
+		_controller = stateMachine.Controller;
+		_canvas = stateMachine.Canvas;
 	}
 	
-	protected override void OnEnter() { }
+	protected override void OnEnter()
+	{
+		_canvas.SetLoadingScreenActive(true);
+	}
 	protected override void OnTick()
 	{
 		_stateMachine.ChangeState(_stateMachine.PlayState);
 	}
 	
 	protected override void OnFixedTick() { }
-	protected override void OnExit() { }
+	protected override void OnExit()
+	{
+		_canvas.SetLoadingScreenActive(false);
+	}
 }

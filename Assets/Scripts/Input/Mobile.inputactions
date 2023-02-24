@@ -31,6 +31,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Death",
+                    "type": "Button",
+                    "id": "b3117e98-69ed-40a8-a45d-82d33c190f80",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Win",
+                    "type": "Button",
+                    "id": "810a1049-8870-43f7-9a06-c5fae3c00467",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -196,6 +214,28 @@
                     "processors": "",
                     "groups": "Joystick",
                     "action": "JoystickDrag",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "01ef78b8-50ad-4e1e-9177-887c2cb18539",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Death",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "23675b12-a0ef-4b16-afc0-820bbd961e6a",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Win",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

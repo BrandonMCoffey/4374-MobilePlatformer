@@ -53,13 +53,13 @@ public class PlatformerCollider : MonoBehaviour
         bool CheckCollisions(RaySet set)
         {
             var origins = set.GetOrigins(_extraRays);
-            return origins.Any(origin => Physics2D.Raycast(origin, set.Dir, _overshoot, _groundLayer));
+	        return origins.Any(origin => Physics2D.Raycast(origin, set.Dir, _overshoot, _groundLayer));
         }
     }
 
     public Collider2D CheckOverlap(Vector2 position)
     {
-        return Physics2D.OverlapBox(position + _offset, _size, 0);
+	    return Physics2D.OverlapBox(position + _offset, _size, 0, _groundLayer);
     }
 
     private void CalculateRays()
