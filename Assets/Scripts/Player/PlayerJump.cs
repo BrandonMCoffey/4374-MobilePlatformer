@@ -37,7 +37,7 @@ public class PlayerJump : MonoBehaviour
         }
 	    if (InputManager.JumpThisFrame)
         {
-            if (_rb.Grounded)
+		    if (_rb.CanJump)
             {
                 Jump();
             }
@@ -47,7 +47,7 @@ public class PlayerJump : MonoBehaviour
                 _remainingAirJumps--;
             }
         }
-	    if (_rb.Grounded && InputManager.DashThisFrame && InputManager.DashDir.normalized.y > 0.8f)
+	    if (_rb.CanJump && InputManager.DashThisFrame && InputManager.DashDir.normalized.y > 0.8f)
 	    {
 	    	Jump();
 	    	InputManager.DashThisFrame = false;
@@ -55,8 +55,19 @@ public class PlayerJump : MonoBehaviour
     }
     
     private void Jump()
-    {
-        _rb.SetVelocityY(Mathf.Sqrt(-2f * _rb.Gravity.y * _jumpHeight));
+	{
+		var vel = Mathf.Sqrt(-2f * _rb.Gravity.y * _jumpHeight);
+		if (_rb.Grounded)
+		{
+			_rb.SetVelocityY(vel);
+		}
+		else if (_rb.OnLeftWall || _rb.OnRightWall)
+		{
+			Debug.Log("Wall Jump " + _rb.OnRightWall);
+			vel *= 0.71f;
+			_rb.SetVelocityX(vel * ( _rb.OnRightWall ? -1 : 1));
+			_rb.SetVelocityY(vel);
+		}
         if (_secondaryJumps) _lastJumpTime = Time.time;
     }
 }

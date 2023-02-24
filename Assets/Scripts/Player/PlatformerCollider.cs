@@ -27,6 +27,8 @@ public class PlatformerCollider : MonoBehaviour
 
     public bool Grounded => _grounded;
 	public bool OnWall => _leftWall || _rightWall;
+	public bool LeftWall => _leftWall;
+	public bool RightWall => _rightWall;
     private Vector3 Center => transform.position + (Vector3)_offset;
 
     private RaySet _raysUp, _raysLeft, _raysRight, _raysDown;

@@ -11,7 +11,7 @@ public class PlatformerRigidbody : MonoBehaviour
 	[SerializeField, Range(0, 1)] private float _groundFriction = 0.25f;
     [Tooltip("Increased accuracy, reduced performance.")]
     [SerializeField] private int _freeColliderIterations = 10;
-    [SerializeField, ReadOnly] private Vector2 _velocity;
+	[SerializeField, ReadOnly] private Vector2 _velocity;
 	[SerializeField, ReadOnly] private bool _climbing;
 	[SerializeField, ReadOnly] private float _climb;
     
@@ -19,6 +19,9 @@ public class PlatformerRigidbody : MonoBehaviour
     private bool _disabled;
     
     public bool Grounded => _collider.Grounded;
+	public bool CanJump => _collider.Grounded || _collider.OnWall;
+	public bool OnLeftWall => _collider.LeftWall;
+	public bool OnRightWall =>  _collider.RightWall;
     public Vector2 Gravity => _gravityMult * Physics2D.gravity;
     public bool FacingRight { get; private set; }
 
@@ -52,6 +55,8 @@ public class PlatformerRigidbody : MonoBehaviour
 	    	_velocity.x *= (1 - _groundFriction);
 		    if (_velocity.y < 0) _velocity.y = 0;
 	    }
+	    
+	    if (_collider.OnWall && _climbing) _velocity.y = 0;
         
         var pos = (Vector2)transform.position;
         var furthestPoint = pos + _velocity * delta;
@@ -78,7 +83,7 @@ public class PlatformerRigidbody : MonoBehaviour
 	        transform.position = furthestPoint;
 	        validMovement = true;
         }
-	    if (_climbing)
+	    if (_collider.OnWall && _climbing)
 	    {
 	    	if (_climb > 0)
 	    	{
