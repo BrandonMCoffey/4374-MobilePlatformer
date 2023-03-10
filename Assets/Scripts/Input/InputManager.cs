@@ -39,6 +39,7 @@ public class InputManager : MonoBehaviour
 	
 	private void Start()
 	{
+		_initialPosition = -Vector3.one;
 		_jumpVisual.localScale = Vector3.zero;
 	}
 	
@@ -62,7 +63,7 @@ public class InputManager : MonoBehaviour
 				JumpThisFrame = true;
 				PlayJumpJircle(_initialPosition);
 			}
-			_initialPosition = Vector2.zero;
+			_initialPosition = -Vector3.one;
 			_walking = false;
 		}
 		Holding = pressed;
