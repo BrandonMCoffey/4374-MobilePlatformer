@@ -34,6 +34,7 @@ public class CanvasController : MonoBehaviour
 		if (_loseScreen) _loseScreen.enabled = active;
 	}
 	
+	public void NextLevel() => GameController.NextLevel();
 	public void RetryLevel() => GameController.RetryLevel();
 	public void QuitToMainMenu() => GameController.ReturnToMainMenu();
 }

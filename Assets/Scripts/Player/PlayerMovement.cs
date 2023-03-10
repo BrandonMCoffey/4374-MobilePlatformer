@@ -21,7 +21,16 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Collider2D _leftWallCollider;
     [SerializeField] private Collider2D _rightWallCollider;
     [SerializeField] private float _wallCheckOffset = 0.5f;
-    [SerializeField] private Vector2 _wallCheckSize = new Vector2(0.3f, 1f);
+	[SerializeField] private Vector2 _wallCheckSize = new Vector2(0.3f, 1f);
+    
+	[Header("Feedback")]
+	[SerializeField] private SfxReference _jumpSfx;
+	[SerializeField] private ParticleSystem _jumpParticles;
+	[SerializeField] private SfxReference _landSfx;
+	[SerializeField] private ParticleSystem _landParticles;
+	[SerializeField] private ParticleSystem _walkParticles;
+	[SerializeField] private SfxReference _dashSfx;
+	[SerializeField] private ParticleSystem _dashParticles;
 
     [Header("Debug - Collisions")]
     [SerializeField, ReadOnly] private bool _groundCollided;
@@ -104,7 +113,17 @@ public class PlayerMovement : MonoBehaviour
         if (grounded != _groundCollided || force)
         {
             _groundCollided = grounded;
-            _groundCollider.enabled = grounded;
+	        _groundCollider.enabled = grounded;
+	        if (grounded)
+	        {
+		        _landSfx.Play();
+		        _landParticles.Play();
+		        _walkParticles.Play();
+	        }
+	        else
+	        {
+		        _walkParticles.Stop();
+	        }
         }
         if (ceiling != _ceilingCollided || force)
         {
@@ -247,6 +266,12 @@ public class PlayerMovement : MonoBehaviour
 
         StopDashing();
     }
+    
+	private void JumpFeedback(bool particles = true)
+	{
+		_jumpSfx.Play();
+		if (particles) _jumpParticles.Play();
+	}
 
     private void StopDashing()
     {
@@ -310,7 +335,10 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSecondsRealtime(_data.dashSleepTime);
         Time.timeScale = 1;
         
-        SetGravityScale(0);
+	    SetGravityScale(0);
+	    
+	    _dashSfx.Play();
+	    _dashParticles.Play();
 
         _isDashAttacking = true;
         float startTime = Time.time;
@@ -330,6 +358,9 @@ public class PlayerMovement : MonoBehaviour
         {
             yield return null;
         }
+        
+	    _dashParticles.Stop();
+        
         _isDashing = false;
         _postDashTimer = _data.dashJumpBonusBufferTime;
         _dashRoutine = null;
