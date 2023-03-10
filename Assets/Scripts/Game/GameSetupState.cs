@@ -20,6 +20,7 @@ public class GameSetupState : State
 	protected override void OnEnter()
 	{
 		_canvas.SetLoadingScreenActive(true);
+		Time.timeScale = 1;
 	}
 	protected override void OnTick()
 	{

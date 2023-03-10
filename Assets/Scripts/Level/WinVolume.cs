@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class WinVolume : MonoBehaviour
 {
-	private void OnTriggerEnter(Collider other)
+	private void OnTriggerEnter2D(Collider2D other)
 	{
-		if (other.GetComponent<PlayerController>())
+		if (other.GetComponent<PlayerMovement>())
 		{
 			GameController.WinGame();
 		}
